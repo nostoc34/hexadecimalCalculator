@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <style>
+
+        body {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        #sonuc {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            min-width: 50px;
+            width: fit-content;
+            background-color: #F5FFC9;
+            border: solid 1px #000;
+            margin: 1rem;
+            color: #000;
+            font-weight: bold;
+            margin: 25px auto;
+        }
+
+        </style>
+    </head>
+    <body>
+        <input id="n1" type="text" oninput="handleChange()">
+        <input id="n2" type="text" oninput="handleChange()">
+        <div id="sonuc"></div>
+        <button onclick="handleClick()">TIK!</button>
+
+
+
+
+        <script>
+        
+        var value1 = "";
+        var value2 = "";
+        var val1 = [];
+        var val2 = [];
+        var result = [];
+
+        function handleChange(e) {
+            value1 = document.getElementById("n1").value;
+            value2 = document.getElementById("n2").value;
+        }
+
+        function calculate() {
+            
+            if (value1.length < value2.length) {
+                var temp = value1;
+                value1 = value2;
+                value2 = temp;
+            }
+            for (var i=0; i < value1.length; i++) {
+                val1.push(value1[i]);
+            }
+            for (var i=0; i < value2.length; i++) {
+                val2.push(value2[i]);
+            }
+
+            for (var i=0; i<val1.length; i++) {
+                switch (val1[i]) {
+                    case "a":
+                        val1.splice(i,1,"10");
+                        break;
+                    case "b":
+                        val1.splice(i,1,"11");
+                        break;
+                    case "c":
+                        val1.splice(i,1,"12");
+                        break;
+                    case "d":
+                        val1.splice(i,1,"13");
+                        break;
+                    case "e":
+                        val1.splice(i,1,"14");
+                        break;
+                    case "f":
+                        val1.splice(i,1,"15");
+                        break;
+                }
+            }
+            for (var i=0; i<val2.length; i++) {
+                switch (val2[i]) {
+                    case "a":
+                        val2.splice(i,1,"10");
+                        break;
+                    case "b":
+                        val2.splice(i,1,"11");
+                        break;
+                    case "c":
+                        val2.splice(i,1,"12");
+                        break;
+                    case "d":
+                        val2.splice(i,1,"13");
+                        break;
+                    case "e":
+                        val2.splice(i,1,"14");
+                        break;
+                    case "f":
+                        val2.splice(i,1,"15");
+                        break;
+                }
+                }
+
+            var diff = val1.length - val2.length;
+            val1.reverse();
+            val2.reverse();
+            
+            for (var i = 0; i < val2.length; i++) {
+                var total = parseInt(val1[i]) + parseInt(val2[i]);
+                result.push(total);
+            }
+
+            for (var i = val2.length; i < val1.length; i++) {
+                result.push(parseInt(val1[i]));
+            }
+
+            for (var i = 0; i < result.length - 1; i++) {
+                if (result[i] > 15) {
+                    var temp = result[i] - 16;
+                    result.splice(i,1,temp);
+                    result[i+1]++;
+                }
+            }
+            if (result[result.length - 1] > 15) {
+                var temp = result[result.length - 1] - 16;
+                result.splice(result.length - 1, 1 , temp);
+                result.push(1);
+            }
+            result.reverse();
+
+            for (var i = 0; i < result.length; i++) {
+                switch (result[i]) {
+                    case 10:
+                        result.splice(i,1,'a');
+                        break;
+                    case 11:
+                        result.splice(i,1,'b');
+                        break;
+                    case 12:
+                        result.splice(i,1,'c');
+                        break;
+                    case 13:
+                        result.splice(i,1,'d');
+                        break;
+                    case 14:
+                        result.splice(i,1,'e');
+                        break;
+                    case 15:
+                        result.splice(i,1,'f');
+                        break;
+                }
+            }
+            document.getElementById("sonuc").innerHTML = result.join('');
+
+
+            console.log(val1);
+            console.log(val2);
+            console.log(result);
+        }
+
+        function handleClick() {
+            if (value1.length < 3 || value2.length < 3 || value1.length > 100 || value2.length > 100 ) {
+                alert("İstenmeyen değer!");
+            } else {
+                calculate();
+                result = [];
+            }
+            console.log(result);
+        }
+
+        
+    </script>
+    </body>
+</html>
