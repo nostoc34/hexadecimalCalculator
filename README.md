@@ -1,7 +1,5 @@
 # hexadecimalCalculator
 
-16'lık sayı sisteminde işlem yapan bir hesap makinesi.
-Şuanlık sadece toplama işlemi mevcut.
-Diğer işlemler eklenecektir.
-
+16'lık sayı sisteminde toplama ve çıkarma işlemleri yapan bir hesap makinesi.
+Çarpma ve bölme işlemleri eklenecektir.
 JavaScript ile yazıldı.
