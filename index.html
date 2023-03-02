@@ -25,6 +25,7 @@
             color: #000;
             font-weight: bold;
             margin: 10px auto 25px auto;
+            padding: 5px;
         }
 
         .input {
@@ -52,8 +53,9 @@
         </div>
         <label>RESULT</label>
         <div id="sonuc"></div>
-        <button onclick="add()">ADD</button>
-        <button onclick="subtract()">SUBTRACT</button>
+        <button onclick="handleClick('add')">ADD</button>
+        <button onclick="handleClick('subtract')">SUBTRACT</button>
+        <button onclick="handleClick('multiply')">MULTIPLY</button>
 
 
         <script src="./index.js"></script>
