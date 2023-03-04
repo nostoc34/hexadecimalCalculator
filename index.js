@@ -5,6 +5,7 @@ var val2 = [];
 var result = [];
 var isLess;
 var isEqual;
+var isZero;
 
 function handleChange(e) {
   value1 = document.getElementById("n1").value;
@@ -22,62 +23,29 @@ function handleClick(x) {
   }
 }
 
-function checkEqual(input1, input2) {
-  let x = 0;
-  if (input1[x] < input2[x]) {
-    var temp = val1;
-    input1 = input2;
-    input2 = temp;
-    isLess = true;
-  } else if (input1[0] === input2[0]) {
-    x++;
-    checkEqual(input1, input2);
-  }
-}
-
-function turnToHex() {
-  for (var i = 0; i < result.length; i++) {
-    switch (result[i]) {
-      case 10:
-        result.splice(i, 1, "a");
-        break;
-      case 11:
-        result.splice(i, 1, "b");
-        break;
-      case 12:
-        result.splice(i, 1, "c");
-        break;
-      case 13:
-        result.splice(i, 1, "d");
-        break;
-      case 14:
-        result.splice(i, 1, "e");
-        break;
-      case 15:
-        result.splice(i, 1, "f");
-        break;
-    }
-  }
-}
-
 function arrange(input1, input2) {
   if (value1[0] === "-" || value2[0] === "-") {
     alert("Please enter a positive number!");
   } else {
-    if (input1.length < input2.length) {
-      var temp = input1;
-      input1 = input2;
-      input2 = temp;
-      isLess = true;
-    } else if (input1.length === input2.length) {
-      isEqual = true;
+    if (input1 === input2) {
+      isZero = true;
+    } else {
+      if (input1.length < input2.length) {
+        var temp = input1;
+        input1 = input2;
+        input2 = temp;
+        isLess = true;
+      } else if (input1.length === input2.length) {
+        isEqual = true;
+      }
     }
+
     for (var i = 0; i < input1.length; i++) {
-      val1.push(input1[i]);
+      val1.unshift(input1[i]);
     }
 
     for (var i = 0; i < input2.length; i++) {
-      val2.push(input2[i]);
+      val2.unshift(input2[i]);
     }
 
     for (var i = 0; i < val1.length; i++) {
@@ -126,21 +94,65 @@ function arrange(input1, input2) {
       }
     }
 
+    for (var i = 0; i < val1.length; i++) {
+      val1.splice(i, 1, parseInt(val1[i]));
+    }
+    for (var i = 0; i < val2.length; i++) {
+      val2.splice(i, 1, parseInt(val2[i]));
+    }
+
     var diff = val1.length - val2.length;
-    val1.reverse();
-    val2.reverse();
     return val1, val2;
+  }
+}
+
+function checkEqual(input1, input2) {
+  for (var i = 0; i < input1.length; i++) {
+    if (input1[i] > input2[i]) {
+      isLess = false;
+      break;
+    } else if (input1[i] < input2[i]) {
+      isLess = true;
+      break;
+    } else {
+      continue;
+    }
+  }
+}
+
+function turnToHex() {
+  for (var i = 0; i < result.length; i++) {
+    switch (result[i]) {
+      case 10:
+        result.splice(i, 1, "a");
+        break;
+      case 11:
+        result.splice(i, 1, "b");
+        break;
+      case 12:
+        result.splice(i, 1, "c");
+        break;
+      case 13:
+        result.splice(i, 1, "d");
+        break;
+      case 14:
+        result.splice(i, 1, "e");
+        break;
+      case 15:
+        result.splice(i, 1, "f");
+        break;
+    }
   }
 }
 
 function add(input1, input2) {
   for (var i = 0; i < input2.length; i++) {
-    var total = parseInt(input1[i]) + parseInt(input2[i]);
+    var total = input1[i] + input2[i];
     result.push(total);
   }
 
   for (var i = input2.length; i < input1.length; i++) {
-    result.push(parseInt(input1[i]));
+    result.push(input1[i]);
   }
 
   for (var i = 0; i < result.length - 1; i++) {
@@ -158,7 +170,7 @@ function add(input1, input2) {
   result.reverse();
 
   turnToHex();
-  
+
   document.getElementById("sonuc").innerHTML = result.join("");
 
   val1 = [];
@@ -167,42 +179,57 @@ function add(input1, input2) {
 }
 
 function subtract(input1, input2) {
-  if (isEqual) {
-    for (var i = 0; i < input1.length; i++) {
-      input1.splice(i, 1, parseInt(input1[i]));
-      input2.splice(i, 1, parseInt(input2[i]));
-    }
-    input1.reverse();
-    input2.reverse();
-    checkEqual(input1, input2);
-    input1.reverse();
-    input2.reverse();
-  }
-
-  for (var i = 0; i < input2.length; i++) {
-    var total = parseInt(input1[i]) - parseInt(input2[i]);
-    result.push(total);
-  }
-
-  for (var i = input2.length; i < input1.length; i++) {
-    result.push(parseInt(input1[i]));
-  }
-  for (var i = 0; i < result.length; i++) {
-    if (result[i] < 0) {
-      var temp = result[i] + 16;
-      result.splice(i, 1, temp);
-      result[i + 1]--;
-    }
-  }
-  result.reverse();
-  turnToHex();
-  
-  if (isLess) {
-    document.getElementById("sonuc").innerHTML = "-" + result.join("");
-  } else {
+  if (isZero) {
+    result = [0];
     document.getElementById("sonuc").innerHTML = result.join("");
+  } else {
+    if (isEqual) {
+      checkEqual(input1.reverse(), input2.reverse());
+    }
+
+    if (isLess && isEqual) {
+      var temp = input1;
+      input1 = input2;
+      input2 = temp;
+    }
+    input1.reverse();
+    input2.reverse();
+    
+
+    for (var i = 0; i < input2.length; i++) {
+      var minus = input1[i] - input2[i];
+      result.push(minus);
+    }
+
+    if (input2.length < input1.length) {
+      for (var i = input2.length; i < input1.length; i++) {
+        result.push(input1[i]);
+      }
+    }
+    console.log(input1);
+    console.log(input2);
+    console.log(result);
+
+    for (var i = 0; i < result.length; i++) {
+      if (result[i] < 0) {
+        var temp = result[i] + 16;
+        result.splice(i, 1, temp);
+        result[i + 1]--;
+      }
+    }
+    result.reverse();
+    turnToHex();
+
+    if (isLess) {
+      document.getElementById("sonuc").innerHTML = "-" + result.join("");
+    } else {
+      document.getElementById("sonuc").innerHTML = result.join("");
+    }
   }
 
+  isZero = false;
+  isEqual = false;
+  isLess = false;
   val1 = [];
   val2 = [];
   result = [];
@@ -213,7 +240,7 @@ function multiply(input1, input2) {
   var tempResult2 = [];
   if (input2.length === 1) {
     for (var i = 0; i < input1.length; i++) {
-      var temp = parseInt(input1[i]) * parseInt(input2[0]);
+      var temp = input1[i] * input2[0];
       tempResult.push(temp);
     }
 
@@ -236,14 +263,13 @@ function multiply(input1, input2) {
         }
       }
     }
-    
-    result = tempResult.reverse();
 
+    result = tempResult.reverse();
   } else {
     for (var i = 0; i < input1.length; i++) {
       var temp2 = [];
       for (var j = 0; j < input2.length; j++) {
-        var temp = parseInt(input1[i]) * parseInt(input2[j]);
+        var temp = input1[i] * input2[j];
 
         temp2.push(temp);
       }
