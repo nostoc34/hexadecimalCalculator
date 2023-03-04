@@ -3,8 +3,6 @@ var value2 = "";
 var val1 = [];
 var val2 = [];
 var result = [];
-var tempResult = [];
-var tempResult2 = [];
 var isLess;
 var isEqual;
 var isZero;
@@ -209,6 +207,9 @@ function subtract(input1, input2) {
 }
 
 function multiply(input1, input2) {
+  var tempResult = [];
+  var tempResult2 = [];
+  
   if (input2.length === 1) {
     for (var i = 0; i < input1.length; i++) {
       var temp = input1[i] * input2[0];
@@ -338,7 +339,6 @@ function divide(input1, input2) {
   turnToInt(val1);
   turnToInt(val2);
 
-
   if (input1 === input2) {
     result = [1];
   } else {
@@ -350,7 +350,6 @@ function divide(input1, input2) {
       if (isLess) {
         div++;
       } else {
-
       }
     }
   }
